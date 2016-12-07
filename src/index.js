@@ -9,6 +9,7 @@ import Store from 'hyper-store';
 import Client from 'hyper-client-wait1';
 import Format from 'hyper-uri-format';
 import Translate from 'onus-translate';
+import ReactDOM from 'react-dom';
 import routes from 'onus-router/react?enhancers=basename!../web';
 
 var API_URL = browser.env.API_URL;
@@ -22,7 +23,7 @@ var client = new Client(API_URL);
 var store = new Store(client);
 var forms = new Forms(client);
 
-module.exports = Poe(document.getElementById('app'), {
+var app = Poe({
   router: {
     activeLinkClassName: 'is-active',
     basename: __app_path__,
@@ -33,3 +34,5 @@ module.exports = Poe(document.getElementById('app'), {
   store: store,
   translate: new Translate('.translations.project_ui')
 });
+
+module.exports = ReactDOM.render(app, document.getElementById('app'));

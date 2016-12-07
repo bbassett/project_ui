@@ -1,6 +1,34 @@
 :doc
   @name App
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import './__local__/index.ess'
 
-h1 project_ui
+MuiThemeProvider(muiTheme=muiTheme)
+  .MuiThemeProvider
+    h1 foobar
+
+
+:module
+  var muiTheme = getMuiTheme({
+    fontFamily: 'inherit'
+  });
+
+  export function componentWillMount() {
+    var path = this.location.pathname;
+    var whiteListedRoutes = [
+      '/pricing',
+      '/login',
+      '/signup'
+    ];
+
+    this.getAsync({
+      authed_user: ['', 'authed_user']
+    }, (err, data) => {
+      if(err) console.return(err);
+      if(!data.authed_user && !~whiteListedRoutes.indexOf(path)) {
+        this.router.replace({to: require.resolve('~/web/login')})
+      }
+    });
+  }

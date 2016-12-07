@@ -2,6 +2,7 @@
  * Module dependencies
  */
 
+require('react-tap-event-plugin')();
 var stack = require('poe-ui/server');
 
 /**
@@ -14,4 +15,3 @@ app.builder.addES6({
   test: /.(js)$/,
   include: /(ui-kit|immutable-color)/
 });
-
