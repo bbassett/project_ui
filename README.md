@@ -11,6 +11,14 @@ npm i
 make
 ```
 
+## TODO
+* Login form
+* Signup form
+* Upgrade form
+* pricing links to signup
+* API support
+* TODOs
+
 ## License
 
 MIT

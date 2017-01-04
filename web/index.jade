@@ -1,34 +1,48 @@
 :doc
-  @name App
+  @name Site
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import './__local__/index.ess'
 
-MuiThemeProvider(muiTheme=muiTheme)
-  .MuiThemeProvider
-    h1 foobar
+var name = _.name
 
+.Site
+  MuiThemeProvider(muiTheme=muiTheme)
+    .MuiThemeProvider
+      yield
 
 :module
   var muiTheme = getMuiTheme({
     fontFamily: 'inherit'
   });
 
+
+  // TODO: optimize/abstract this
   export function componentWillMount() {
     var path = this.location.pathname;
     var whiteListedRoutes = [
       '/pricing',
       '/login',
-      '/signup'
+      '/signup',
+      '/'
     ];
 
     this.getAsync({
       authed_user: ['', 'authed_user']
     }, (err, data) => {
       if(err) console.return(err);
+
       if(!data.authed_user && !~whiteListedRoutes.indexOf(path)) {
-        this.router.replace({to: require.resolve('~/web/login')})
+        // TODO: after login, go back to where they came from
+        this.router.replace({to: require.resolve('~/web/login')});
+      }
+      if(data.authed_user && path === '/login') {
+        this.router.replace({to: require.resolve('~/web/app')});
+      }
+      if(data.authed_user && path === '/signup') {
+        this.router.replace({to: require.resolve('~/web/upgrade')});
       }
     });
   }
+
